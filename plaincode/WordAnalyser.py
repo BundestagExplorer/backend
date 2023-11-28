@@ -1,3 +1,4 @@
+import fasttext
 import fasttext.util  # use pip install fasttext-wheel
 import numpy as np
 import nltk
@@ -24,6 +25,7 @@ class WordCounter:
         "Forschung",
         "Wohnungsbau",
     ]
+    fasttext.util.download_model('de', if_exists='ignore')  # English
     ft = fasttext.load_model('cc.de.300.bin')  # German vocabulary , trained on Wikipedia
 
     def __init__(self, wordlist):
