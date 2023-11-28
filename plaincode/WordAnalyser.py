@@ -4,7 +4,6 @@ import nltk
 from nltk.corpus import stopwords
 
 
-
 # A class that represents a file and allows querying and analysing its content
 class WordCounter:
     ressortsText = [
@@ -58,18 +57,18 @@ class WordCounter:
                         dict_w_res[word_t] = res
         return dict_w_res
 
-    def removeWords(self):
+    def remove_words(self):
         # Download the stop words dataset for German
         nltk.download('stopwords')
         nltk.download('de')
         stop_words_german = set(stopwords.words('german'))
-        #remove words of lower case and stopwords and the substring "gesetz" and everything after of words
+        # remove words of lower case and stopwords and the substring "gesetz" and everything after of words
         # we dont want
-        #1. "zur" (kein Nomen, nicht aussagekräftig)
-        #2. "Ist" (auch Füllworter sind manchmal groß geschrieben)
-        #3. "Digitalisierungsgesetesentwurf" -> besser "Digitalisierung"
-        #4. Artikel sind auuch unnöttig
-        german_articles = set([
+        # 1. "zur" (kein Nomen, nicht aussagekräftig)
+        # 2. "Ist" (auch Füllworter sind manchmal groß geschrieben)
+        # 3. "Digitalisierungsgesetesentwurf" -> besser "Digitalisierung"
+        # 4. Artikel sind auuch unnöttig
+        german_articles = {
             # Nominative
             'Der', 'Die', 'Das',
             'Ein', 'Eine',
@@ -128,7 +127,6 @@ class WordCounter:
             'Meinem', 'Deinem', 'Seinem', 'Ihrem', 'Seinem', 'Unserem', 'Eurem', 'Ihrem', 'Ihrem',
             'Meinen', 'Deinen', 'Seinen', 'Ihren', 'Seinen', 'Unseren', 'Euren', 'Ihren', 'Ihren',
 
-
             # Demonstrative pronouns
             'Dieser', 'Diese', 'Dieses', 'Jener', 'Jene', 'Jenes',
 
@@ -138,29 +136,32 @@ class WordCounter:
             # Interrogative pronouns
             'Wer', 'Wen', 'Wem', 'Wessen', 'Was', 'Welcher', 'Welche', 'Welches',
 
-            # Indefinite pronouns
+            # Indefinite pronounss
             'Alle', 'Viele', 'Einige', 'Jeder', 'Jede', 'Jedes', 'Manche', 'Irgendein', 'Irgendeine', 'Irgendein',
 
-        ])
+        }
 
-        self.wordlist = [word.split('gesetz')[0] for word in self.wordlist if not (word[0].islower() or word.lower() in stop_words_german or word in german_articles)]
+        self.wordlist = [word.split('gesetz')[0] for word in self.wordlist if
+                         not (word[0].islower() or word.lower() in stop_words_german or word in german_articles)]
 
-    def makeWordCloud(self):
-        self.removeWords()
-        wc_dict=dict()
+    def make_word_cloud(self):
+        self.remove_words()
         dictionary_counts = self.wordlist.word_count()
-        ressort_to_words={}
+        ressort_to_words = {}
         for word, ressort in self.word_to_ressort().items():
             if ressort in ressort_to_words:
                 ressort_to_words[ressort].append((word, dictionary_counts.get(word)))
             else:
-                ressort_to_words[ressort]=[word]
-        return wc_dict
+                ressort_to_words[ressort] = [word]
+        return ressort_to_words
+
 
 def main():
-    wordlist=["Überschwemmung","Flut", "Kindergarten", "Syrien", "das", "Der", "Krieg", "Ukraine", "EZB", "Digitalisierungsgesetz", "Syrien", "Krieg", "Krieg"]
-    instance=WordCounter(wordlist)
-    print(instance.makeWordCloud())
+    wordlist = ["Überschwemmung", "Flut", "Kindergarten", "Syrien", "das", "Der", "Krieg", "Ukraine", "EZB",
+                "Digitalisierungsgesetz", "Syrien", "Krieg", "Krieg"]
+    instance = WordCounter(wordlist)
+    print(instance.make_word_cloud())
+
 
 if __name__ == "__main__":
     main()
