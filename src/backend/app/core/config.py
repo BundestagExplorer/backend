@@ -1,7 +1,8 @@
 """Configuration of Settings."""
+import os
+
 import pydantic as pyd
 from pydantic_settings import BaseSettings
-import os
 
 
 class Settings(BaseSettings):

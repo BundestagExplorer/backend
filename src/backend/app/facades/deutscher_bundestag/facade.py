@@ -5,7 +5,6 @@ import typing as t
 
 import requests
 
-
 from backend.app.core.config import Settings
 from backend.app.facades.deutscher_bundestag.model import Drucksache, Vorgang, Vorgangsposition
 from backend.app.facades.facade import (
