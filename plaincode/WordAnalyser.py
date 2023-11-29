@@ -148,13 +148,13 @@ class WordCounter:
 
     def make_word_cloud(self):
         self.remove_words()
-        dictionary_counts = self.wordlist.word_count()
+        dictionary_counts = self.word_count()
         ressort_to_words = {}
         for word, ressort in self.word_to_ressort().items():
             if ressort in ressort_to_words:
                 ressort_to_words[ressort].append((word, dictionary_counts.get(word)))
             else:
-                ressort_to_words[ressort] = [word]
+                ressort_to_words[ressort] = [(word, dictionary_counts.get(word))]
         return ressort_to_words
 
 
@@ -162,6 +162,7 @@ def main():
     wordlist = ["Überschwemmung", "Flut", "Kindergarten", "Syrien", "das", "Der", "Krieg", "Ukraine", "EZB",
                 "Digitalisierungsgesetz", "Syrien", "Krieg", "Krieg"]
     instance = WordCounter(wordlist)
+    print("start")
     print(instance.make_word_cloud())
 
 
